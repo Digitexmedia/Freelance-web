@@ -3,166 +3,175 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Sescotech Fashions</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-    body { font-family: Arial; margin: 0; background: #f8f9fa; }
-    header, nav, main { padding: 20px; }
-    .sidebar { position: fixed; top: 0; left: 0; background: #222; color: #fff; height: 100vh; width: 250px; padding-top: 60px; display: none; flex-direction: column; }
-    .sidebar a { color: #fff; padding: 15px; text-decoration: none; display: block; }
-    .sidebar a:hover { background: #444; }
-    .topbar { background: #343a40; color: #fff; padding: 10px; display: flex; align-items: center; }
-    .topbar button { margin-right: 20px; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-    section { margin-top: 20px; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      padding-top: 60px;
+      color: white;
+    }
+    .sidebar a {
+      display: block;
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+    }
+    .sidebar a:hover { background: #34495e; }
+    .topbar {
+      height: 60px;
+      background: #2980b9;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .content {
+      margin-left: 250px;
+      padding: 80px 20px;
+    }
     iframe, video { width: 100%; height: 200px; margin-bottom: 10px; }
-    .hidden { display: none; }
+    .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+    input, select, button { margin: 5px 0; padding: 8px; width: 100%; }
   </style>
 </head>
 <body>
   <div class="topbar">
-    <button onclick="toggleSidebar()">☰</button>
-    <h2>Sescotech Dashboard</h2>
-  </div>  <div id="sidebar" class="sidebar">
+    <strong>Sescotech Dashboard</strong>
+  </div>
+  <div class="sidebar">
     <a href="#wallet">Wallet</a>
-    <a href="#personal">Personal Details</a>
-    <a href="#refer">Refer and Earn</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </div>  <main>
-    <section id="videos">
-      <h3>YouTube (KES 10 each)</h3>
-      <video src="https://www.youtube.com/embed/W68WsEHKTDQ" controls onended="creditUser(10, this)"></video>
-      <video src="https://www.youtube.com/embed/Ovgo-QDyymI" controls onended="creditUser(10, this)"></video>
-      <video src="https://www.youtube.com/embed/rDclYgR4jFA" controls onended="creditUser(10, this)"></video><h3>TikTok (KES 8 each)</h3>
-  <video src="tiktok1.mp4" controls onended="creditUser(8, this)"></video>
-  <video src="tiktok2.mp4" controls onended="creditUser(8, this)"></video>
-  <video src="tiktok3.mp4" controls onended="creditUser(8, this)"></video>
-</section>
+    <a href="#details">Personal Details</a>
+    <a href="#refer">Refer & Earn</a>
+    <a href="#logout" onclick="logout()">Logout</a>
+  </div>  <div class="content">
+    <div class="section" id="youtube">
+      <h3>Watch YouTube Videos (KES 10 each)</h3>
+      <iframe src="https://www.youtube.com/embed/W68WsEHKTDQ" allow="autoplay"></iframe>
+      <iframe src="https://www.youtube.com/embed/Ovgo-QDyymI" allow="autoplay"></iframe>
+      <iframe src="https://www.youtube.com/embed/rDclYgR4jFA" allow="autoplay"></iframe>
+    </div><div class="section" id="tiktok">
+  <h3>Watch TikTok Videos (KES 8 each)</h3>
+  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+  <video src="https://www.w3schools.com/html/movie.mp4" controls></video>
+  <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+</div>
 
-<section id="whatsapp">
-  <h3>WhatsApp Advert (KES 20/day)</h3>
-  <img src="g-wagon.jpg" alt="Advert" style="width:100%; max-width:400px;" />
-  <p>Upload screenshot after posting on WhatsApp:</p>
-  <input type="file" />
-</section>
+<div class="section" id="whatsapp">
+  <h3>WhatsApp Adverts (KES 20/day)</h3>
+  <img src="https://cdn.pixabay.com/photo/2017/09/07/08/11/mercedes-2721341_1280.jpg" width="100%" alt="G-Wagon" />
+  <a href="https://cdn.pixabay.com/photo/2017/09/07/08/11/mercedes-2721341_1280.jpg" download>Download Image</a><br>
+  <label>Upload your screenshot:</label>
+  <input type="file" accept="image/*" />
+</div>
 
-<section id="trivia">
+<div class="section" id="trivia">
   <h3>Trivia Questions (KES 5 each)</h3>
   <div id="triviaContainer"></div>
-  <button onclick="showResults()">Finish Trivia</button>
-</section>
+</div>
 
-<section id="invest">
+<div class="section" id="investment">
   <h3>Money Market Investment (50% Weekly Return)</h3>
-  <input type="number" id="investInput" placeholder="Enter amount in KES" />
-  <p>Weekly Return: <span id="investReturn">KES 0</span></p>
-</section>
+  <label>Enter amount (KES)</label>
+  <input type="number" id="investInput" />
+  <p id="weeklyReturn">Weekly Return: KES 0</p>
+</div>
 
-<section id="loan">
-  <h3>Loan Eligibility</h3>
-  <input type="text" id="idInput" placeholder="Enter National ID (8 digits)" maxlength="8" />
+<div class="section" id="loan">
+  <h3>Loan Application</h3>
+  <label>Enter your National ID (8 digits)</label>
+  <input type="text" id="idInput" maxlength="8" />
   <p id="loanResult"></p>
-</section>
+</div>
 
-<section id="wallet">
-  <h3>Wallet</h3>
-  <p>Total Earnings: <span id="walletAmount">KES 0</span></p>
-  <button>Deposit</button>
-  <button>Withdraw</button>
-</section>
+<div class="section" id="wallet">
+  <h3>Your Wallet</h3>
+  <p>Total Income: <span id="walletIncome">KES 0</span></p>
+  <p>Total Deposit: <span id="walletDeposit">KES 0</span></p>
+  <p>Total Withdrawal: <span id="walletWithdraw">KES 0</span></p>
+</div>
 
-<section id="personal">
+<div class="section" id="details">
   <h3>Personal Details</h3>
-  <p id="userDetails"></p>
-  <input type="password" placeholder="New Password" />
-  <button>Reset Password</button>
-</section>
+  <p id="userInfo">Loading user info...</p>
+  <label>Reset Password</label>
+  <input type="password" placeholder="Enter new password" />
+</div>
 
-<section id="refer">
+<div class="section" id="refer">
   <h3>Refer and Earn</h3>
-  <p>Share this link with friends: <strong id="refLink">https://sescotech.com/register?ref=USERNAME</strong></p>
-</section>
+  <p>Share this link with your friends and earn KES 20 per signup:</p>
+  <p><code id="referLink"></code></p>
+</div>
 
-  </main>  <script>
-    const user = localStorage.getItem("loggedInUser") || "guest";
-    let wallet = 0;
-    let watched = new Set();
+  </div>  <script>
+    const user = localStorage.getItem("loggedInUser") || "Guest";
+    document.getElementById("userInfo").innerText = `Logged in as: ${user}`;
+    document.getElementById("referLink").innerText = `${window.location.origin}/register.html?ref=${user}`;
 
-    document.getElementById("refLink").innerText = `https://sescotech.com/register?ref=${user}`;
-    document.getElementById("userDetails").innerText = `Username: ${user}`;
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.style.display = sidebar.style.display === "flex" ? "none" : "flex";
-    }
-
-    function creditUser(amount, video) {
-      if (!watched.has(video)) {
-        wallet += amount;
-        watched.add(video);
-        document.getElementById("walletAmount").innerText = `KES ${wallet}`;
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem("loggedInUser");
-      window.location.href = "login.html";
-    }
-
-    // Investment calculator
-    document.getElementById("investInput").addEventListener("input", function () {
-      const amount = parseFloat(this.value);
-      const returnAmount = amount * 0.5;
-      document.getElementById("investReturn").innerText = `KES ${returnAmount || 0}`;
-    });
-
-    // Loan eligibility check
-    document.getElementById("idInput").addEventListener("input", function () {
+    // Loan Eligibility
+    document.getElementById("idInput").addEventListener("input", function() {
       const id = this.value;
       if (id.length === 8) {
-        if (id.startsWith("43")) {
-          document.getElementById("loanResult").innerText = "You are not eligible for a loan.";
-        } else {
-          document.getElementById("loanResult").innerText = "You are eligible. You can apply now.";
-        }
+        const eligible = parseInt(id) < 43000000;
+        document.getElementById("loanResult").innerText = eligible ? "You are eligible for a loan." : "Sorry, you're not eligible.";
       } else {
         document.getElementById("loanResult").innerText = "";
       }
     });
 
-    // Trivia
-    const triviaData = [
-      { q: "Capital of Kenya?", a: "Nairobi", options: ["Nairobi", "Mombasa", "Kisumu"] },
-      { q: "Largest ocean?", a: "Pacific", options: ["Atlantic", "Indian", "Pacific"] },
-      { q: "5 + 7 = ?", a: "12", options: ["10", "12", "14"] },
-      { q: "Color of sky?", a: "Blue", options: ["Green", "Blue", "Red"] },
-      { q: "Fastest land animal?", a: "Cheetah", options: ["Lion", "Cheetah", "Leopard"] },
-      { q: "Currency in Kenya?", a: "KES", options: ["USD", "KES", "ZAR"] },
-      { q: "Kenyan flag has?", a: "3 colors", options: ["2 colors", "3 colors", "4 colors"] },
-      { q: "Water freezes at?", a: "0", options: ["0", "100", "50"] },
-      { q: "Sun rises from?", a: "East", options: ["West", "North", "East"] },
-      { q: "Google is a?", a: "Search Engine", options: ["Website", "App", "Search Engine"] }
+    // Investment Calculator
+    document.getElementById("investInput").addEventListener("input", function() {
+      const amount = parseFloat(this.value) || 0;
+      const returnAmount = amount * 0.5;
+      document.getElementById("weeklyReturn").innerText = `Weekly Return: KES ${returnAmount}`;
+    });
+
+    // Trivia Setup
+    const trivia = [
+      { q: "What is the capital of Kenya?", a: "Nairobi" },
+      { q: "Which planet is known as the Red Planet?", a: "Mars" },
+      { q: "2 + 2 = ?", a: "4" },
+      { q: "What is the currency of Kenya?", a: "Shilling" },
+      { q: "Which animal is the king of the jungle?", a: "Lion" },
+      { q: "What is water's chemical formula?", a: "H2O" },
+      { q: "Who wrote 'Macbeth'?", a: "Shakespeare" },
+      { q: "Which ocean is the largest?", a: "Pacific" },
+      { q: "Fastest land animal?", a: "Cheetah" },
+      { q: "Which continent is Kenya in?", a: "Africa" }
     ];
-    let score = 0;
-    let current = 0;
 
-    function loadTrivia() {
-      const container = document.getElementById("triviaContainer");
-      if (current >= triviaData.length) return;
-      const data = triviaData[current];
-      container.innerHTML = `<p>${data.q}</p>` + data.options.map(opt => `<button onclick="checkAnswer('${opt}')">${opt}</button>`).join("<br>");
+    const container = document.getElementById("triviaContainer");
+    let current = 0, score = 0;
+    function showQuestion(i) {
+      if (i >= trivia.length) {
+        container.innerHTML = `<p>You scored ${score}/${trivia.length}. Earned KES ${score * 5}</p>`;
+        return;
+      }
+      const t = trivia[i];
+      container.innerHTML = `<p>${t.q}</p>
+        <input placeholder="Your answer" id="ansInput" />
+        <button onclick="checkAnswer('${t.a}')">Submit</button>`;
     }
-
-    function checkAnswer(ans) {
-      if (triviaData[current].a === ans) score += 5;
+    function checkAnswer(correct) {
+      const input = document.getElementById("ansInput").value.trim();
+      if (input.toLowerCase() === correct.toLowerCase()) score++;
       current++;
-      if (current < triviaData.length) loadTrivia();
+      showQuestion(current);
     }
+    showQuestion(current);
 
-    function showResults() {
-      document.getElementById("triviaContainer").innerHTML = `You earned KES ${score} from trivia.`;
-      wallet += score;
-      document.getElementById("walletAmount").innerText = `KES ${wallet}`;
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
     }
-
-    loadTrivia();
   </script></body>
 </html>
