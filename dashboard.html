@@ -5,59 +5,67 @@
   <link rel="stylesheet" href="styles.css" />
   <script defer src="dashboard.js"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #f3f4f6, #e0f7fa);
-      color: #333;
-    }header nav {
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --accent-color: #007bff;
+    }body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  background: var(--accent-color);
+  color: #fff;
+  padding: 10px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #009688;
-  color: white;
-}
-
-.menu-toggle {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.logo {
-  font-weight: bold;
-}
-
-#sidebar {
-  position: fixed;
-  top: 50px;
-  left: -250px;
-  width: 250px;
-  background-color: #004d40;
-  height: 100%;
-  color: white;
-  transition: 0.3s ease;
+  align-items: center;
+  position: sticky;
+  top: 0;
   z-index: 1000;
 }
 
-#sidebar ul {
+#menu-toggle {
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+#theme-selector {
+  margin-right: 20px;
+}
+
+aside#sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: var(--accent-color);
+  color: white;
+  transition: left 0.3s ease;
+  padding-top: 60px;
+  z-index: 999;
+}
+
+aside#sidebar ul {
   list-style: none;
   padding: 0;
 }
 
-#sidebar ul li {
-  padding: 15px;
-  border-bottom: 1px solid #00796b;
+aside#sidebar ul li {
+  padding: 10px 20px;
 }
 
-#sidebar ul li a {
+aside#sidebar ul li a {
   color: white;
   text-decoration: none;
-  display: block;
 }
 
-#sidebar.show {
+aside#sidebar.active {
   left: 0;
 }
 
@@ -67,63 +75,90 @@ main {
 
 section {
   margin-bottom: 40px;
-  background: white;
   padding: 20px;
+  background: #f5f5f5;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 footer {
-  background-color: #00796b;
-  color: white;
-  text-align: center;
   padding: 10px;
+  text-align: center;
+  background-color: var(--accent-color);
+  color: white;
 }
 
-.video iframe {
-  max-width: 100%;
-  border-radius: 8px;
+#live-users, #live-withdrawals {
+  margin-top: 20px;
+  padding: 10px;
+  background: #eee;
+  font-size: 0.9em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  section {
+    padding: 10px;
+  }
+
+  iframe {
+    width: 100%;
+    height: auto;
+  }
 }
 
   </style>
 </head><body>
   <header>
-    <nav>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
-      <div class="logo">tipmaxstiven Investments</div>
-    </nav>
-    <aside id="sidebar">
-      <ul>
-        <li><a href="#personal-details">Personal Details</a></li>
-        <li><a href="#refer">Refer and Earn</a></li>
-        <li><a href="#logout" id="logout">Logout</a></li>
-      </ul>
-    </aside>
-  </header>  <main>
-    <section id="videos">
-      <h2>Watch YouTube Videos (KES 10 each)</h2>
-      <div class="video">
-        <iframe src="https://www.youtube.com/embed/W68WsEHKTDQ" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
-      </div>
-      <div class="video">
-        <iframe src="https://www.youtube.com/embed/Ovgo-QDyymI" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
-      </div>
-      <div class="video">
-        <iframe src="https://www.youtube.com/embed/rDclYgR4jFA" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
-      </div>
-    </section><section id="tiktok">
+    <div id="menu-toggle">☰</div>
+    <div class="logo">tipmaxstiven Investments</div>
+    <select id="theme-selector">
+      <option value="light">Light</option>
+      <option value="sunset">Sunset</option>
+      <option value="midnight">Midnight</option>
+    </select>
+  </header>  <aside id="sidebar">
+    <ul>
+      <li><a href="#wallet">Wallet</a></li>
+      <li><a href="#personal-details">Personal Details</a></li>
+      <li><a href="#refer">Refer and Earn</a></li>
+      <li><a href="#logout" id="logout">Logout</a></li>
+    </ul>
+  </aside>  <main>
+    <section id="wallet">
+      <h2>Wallet</h2>
+      <p>Total Balance: <span id="wallet-balance">KES 0</span></p>
+      <p>Total Earned: <span id="wallet-earned">KES 0</span></p>
+      <p>Pending Withdrawals: <span id="wallet-pending">KES 0</span></p>
+      <p>Deposits: <span id="wallet-deposit">KES 0</span></p>
+    </section><section id="videos">
+  <h2>Watch YouTube Videos (KES 10 each)</h2>
+  <div class="video">
+    <iframe width="300" height="170" src="https://www.youtube.com/embed/W68WsEHKTDQ" allowfullscreen></iframe>
+    <p class="reward">KES 10</p>
+  </div>
+  <div class="video">
+    <iframe width="300" height="170" src="https://www.youtube.com/embed/Ovgo-QDyymI" allowfullscreen></iframe>
+    <p class="reward">KES 10</p>
+  </div>
+  <div class="video">
+    <iframe width="300" height="170" src="https://www.youtube.com/embed/rDclYgR4jFA" allowfullscreen></iframe>
+    <p class="reward">KES 10</p>
+  </div>
+</section>
+
+<section id="tiktok">
   <h2>Watch TikTok Videos (KES 8 each)</h2>
   <div class="video">
-    <iframe src="https://www.tiktok.com/embed/734593093" width="300" height="500" allowfullscreen></iframe>
+    <iframe src="https://www.tiktok.com/embed/7340193842937" width="300" height="500" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
   </div>
   <div class="video">
-    <iframe src="https://www.tiktok.com/embed/834589435" width="300" height="500" allowfullscreen></iframe>
+    <iframe src="https://www.tiktok.com/embed/7340193842938" width="300" height="500" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
   </div>
   <div class="video">
-    <iframe src="https://www.tiktok.com/embed/939239123" width="300" height="500" allowfullscreen></iframe>
+    <iframe src="https://www.tiktok.com/embed/7340193842939" width="300" height="500" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
   </div>
 </section>
 
@@ -135,7 +170,7 @@ footer {
 </section>
 
 <section id="invest">
-  <h2>Money Market Fund (50% Weekly Return)</h2>
+  <h2>Money Market Investment (50% Weekly Return)</h2>
   <label for="invest-amount">Enter amount (KES):</label>
   <input type="number" id="invest-amount" />
   <p>Weekly Return: <span id="weekly-return">KES 0</span></p>
@@ -147,9 +182,7 @@ footer {
   <h2>Loan Application</h2>
   <label for="id-number">Enter 8-digit National ID:</label>
   <input type="text" id="id-number" maxlength="8" />
-  <label for="loan-amount">Enter Loan Amount (Max 10,000 KES):</label>
-  <input type="number" id="loan-amount" max="10000" />
-  <button id="check-eligibility">Request Loan</button>
+  <button id="check-eligibility">Check Eligibility</button>
   <div id="loan-result"></div>
   <div id="loan-kyc" style="display:none;">
     <h3>KYC Details</h3>
@@ -158,23 +191,15 @@ footer {
     <label>Proof of Address:</label><input type="file" /><br />
     <label>Passport Photo:</label><input type="file" /><br />
     <label>Phone Number:</label><input type="tel" /><br />
+    <label>Enter Loan Amount:</label><input type="number" /><br />
     <button>Submit KYC</button>
-    <p>Your loan application has been received. Please wait for verification and approval.</p>
   </div>
-</section>
-
-<section id="wallet">
-  <h2>Wallet</h2>
-  <p>Total Balance: <span id="wallet-balance">KES 0</span></p>
-  <p>Total Earned: <span id="wallet-earned">KES 0</span></p>
-  <p>Pending Withdrawals: <span id="wallet-pending">KES 0</span></p>
-  <p>Deposits: <span id="wallet-deposit">KES 0</span></p>
 </section>
 
 <section id="personal-details">
   <h2>Personal Details</h2>
-  <p><strong>Username:</strong> <span id="user-name">User123</span></p>
-  <p><strong>Email:</strong> <span id="user-email">user@example.com</span></p>
+  <p><strong>Username:</strong> <span id="user-name"></span></p>
+  <p><strong>Email:</strong> <span id="user-email"></span></p>
   <button id="reset-password">Reset Password</button>
 </section>
 
@@ -183,25 +208,44 @@ footer {
   <p>Share your referral link: <span id="referral-link">https://tipmaxstiven.site/?ref=username</span></p>
 </section>
 
-<section id="activity">
+<section id="live-users">
   <h2>Total Active Users</h2>
-  <p id="active-users">Loading...</p>
+  <div id="users-list">Loading active users...</div>
+</section>
 
+<section id="live-withdrawals">
   <h2>Live Withdrawals</h2>
-  <marquee direction="up" scrollamount="3" height="100">
-    <ul id="withdrawals">
-      <li>John - 0712****90 - KES 1,200</li>
-      <li>Mary - 0791****22 - KES 2,500</li>
-      <li>Peter - 0740****33 - KES 3,000</li>
-      <!-- Additional users added dynamically -->
-    </ul>
-  </marquee>
+  <div id="withdrawals-list">Loading recent withdrawals...</div>
 </section>
 
   </main>  <footer>
     <p>&copy; 2025 tipmaxstiven Investments. All rights reserved.</p>
   </footer>  <script>
-    document.getElementById('menu-toggle').onclick = function () {
-      document.getElementById('sidebar').classList.toggle('show');
-    };
+    const toggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    toggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    const themeSelector = document.getElementById('theme-selector');
+    themeSelector.addEventListener('change', (e) => {
+      const theme = e.target.value;
+      switch (theme) {
+        case 'light':
+          document.documentElement.style.setProperty('--bg-color', '#ffffff');
+          document.documentElement.style.setProperty('--text-color', '#000000');
+          document.documentElement.style.setProperty('--accent-color', '#007bff');
+          break;
+        case 'sunset':
+          document.documentElement.style.setProperty('--bg-color', '#fff0e6');
+          document.documentElement.style.setProperty('--text-color', '#5a1e00');
+          document.documentElement.style.setProperty('--accent-color', '#ff5722');
+          break;
+        case 'midnight':
+          document.documentElement.style.setProperty('--bg-color', '#121212');
+          document.documentElement.style.setProperty('--text-color', '#e0e0e0');
+          document.documentElement.style.setProperty('--accent-color', '#00bcd4');
+          break;
+      }
+    });
   </script></body></html>
