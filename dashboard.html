@@ -1,61 +1,14 @@
 <!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tipmaxstiven Investments Dashboard</title>
+  <title>TipMaxStiven Investments Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
   <script defer src="dashboard.js"></script>
-  <style>
-    body {
-      background: linear-gradient(120deg, #f6f9fc, #e0f7fa);
-      font-family: Arial, sans-serif;
-      color: #333;
-    }
-    header, nav, main, footer {
-      padding: 1rem;
-    }
-    .menu-toggle {
-      cursor: pointer;
-    }
-    #sidebar {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      background: #fff;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-    }
-    #sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-    #sidebar ul li {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-    .video {
-      margin-bottom: 10px;
-    }
-    input[type="file"] {
-      display: block;
-      margin-top: 5px;
-    }
-    button {
-      padding: 10px 15px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
 </head><body>
   <header>
     <nav>
       <div class="menu-toggle" id="menu-toggle">☰</div>
-      <div class="logo">tipmaxstiven Investments</div>
+      <div class="logo">TipMaxStiven Investments</div>
     </nav>
     <aside id="sidebar">
       <ul>
@@ -72,13 +25,48 @@
         <iframe width="300" height="170" src="https://www.youtube.com/embed/W68WsEHKTDQ" allowfullscreen></iframe>
         <p class="reward">KES 10</p>
       </div>
-    </section><section id="trivia">
+      <div class="video">
+        <iframe width="300" height="170" src="https://www.youtube.com/embed/Ovgo-QDyymI" allowfullscreen></iframe>
+        <p class="reward">KES 10</p>
+      </div>
+      <div class="video">
+        <iframe width="300" height="170" src="https://www.youtube.com/embed/rDclYgR4jFA" allowfullscreen></iframe>
+        <p class="reward">KES 10</p>
+      </div>
+    </section><section id="tiktok">
+  <h2>Watch TikTok Videos (KES 8 each)</h2>
+  <div class="video">
+    <iframe width="300" height="500" src="https://www.tiktok.com/embed/7222135345525593387" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
+  </div>
+  <div class="video">
+    <iframe width="300" height="500" src="https://www.tiktok.com/embed/7234567890123456789" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
+  </div>
+  <div class="video">
+    <iframe width="300" height="500" src="https://www.tiktok.com/embed/7212345678901234567" allowfullscreen></iframe>
+    <p class="reward">KES 8</p>
+  </div>
+</section>
+
+<section id="whatsapp">
+  <h2>WhatsApp Adverts (KES 20/day)</h2>
+  <img src="g-wagon.jpg" alt="G-Wagon Ad" width="300" />
+  <a href="g-wagon.jpg" download>Download Image</a>
+  <br /><br />
+  <label>Upload your screenshot:</label>
+  <input type="file" accept="image/*" />
+</section>
+
+<section id="trivia">
   <h2>Trivia Questions (KES 5 each)</h2>
-  <p>Coming soon...</p>
+  <div id="question-container"></div>
+  <button id="next-btn">Next</button>
+  <p id="result"></p>
 </section>
 
 <section id="invest">
-  <h2>Money Market Investment (50% Weekly Return)</h2>
+  <h2>Money Market Fund (50% Weekly Return)</h2>
   <label for="invest-amount">Enter amount (KES):</label>
   <input type="number" id="invest-amount" />
   <p>Weekly Return: <span id="weekly-return">KES 0</span></p>
@@ -99,7 +87,8 @@
     <label>Proof of Address:</label><input type="file" /><br />
     <label>Passport Photo:</label><input type="file" /><br />
     <label>Phone Number:</label><input type="tel" /><br />
-    <button id="submit-kyc">Submit KYC</button>
+    <label>Enter Loan Amount (Max 10,000 KES):</label><input type="number" id="loan-amount" max="10000" /><br />
+    <button>Submit KYC</button>
   </div>
 </section>
 
@@ -123,46 +112,23 @@
   <p>Share your referral link: <span id="referral-link">https://tipmaxstiven.site/?ref=username</span></p>
 </section>
 
+<section id="activity">
+  <h2>Total Active Users</h2>
+  <div id="active-users">Loading...</div>
+
+  <h2>Live Withdrawals</h2>
+  <div id="live-withdrawals" class="ticker">
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+      <span>John M (0701****22) withdrew KES 850 | </span>
+      <span>Faith K (0712****33) withdrew KES 1,200 | </span>
+      <span>Brian T (0798****11) withdrew KES 600 | </span>
+      <span>Mary W (0740****77) withdrew KES 1,500 | </span>
+      <span>...</span>
+    </marquee>
+  </div>
+</section>
+
   </main>  <footer>
-    <p>&copy; 2025 tipmaxstiven Investments. All rights reserved.</p>
-  </footer>  <script>
-    document.getElementById("menu-toggle").addEventListener("click", function () {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
-    });
-
-    document.getElementById("invest-amount").addEventListener("input", function () {
-      const amount = parseFloat(this.value);
-      const weeklyReturn = amount * 0.5;
-      const dailyReturn = weeklyReturn / 7;
-      document.getElementById("weekly-return").textContent = `KES ${weeklyReturn}`;
-      document.getElementById("daily-return").textContent = `KES ${dailyReturn.toFixed(2)}`;
-    });
-
-    document.getElementById("stake-btn").addEventListener("click", function () {
-      const amount = parseFloat(document.getElementById("invest-amount").value);
-      const balance = parseFloat(document.getElementById("wallet-balance").textContent.replace("KES ", ""));
-      if (amount > balance) {
-        alert("Insufficient balance");
-        return;
-      }
-      const newBalance = balance - amount;
-      document.getElementById("wallet-balance").textContent = `KES ${newBalance}`;
-      alert("Amount successfully staked!");
-    });
-
-    document.getElementById("check-eligibility").addEventListener("click", function () {
-      const id = document.getElementById("id-number").value;
-      if (id.length === 8) {
-        document.getElementById("loan-result").textContent = "You are eligible for a loan (up to KES 10,000).";
-        document.getElementById("loan-kyc").style.display = "block";
-      } else {
-        document.getElementById("loan-result").textContent = "Invalid ID number.";
-      }
-    });
-
-    document.getElementById("submit-kyc").addEventListener("click", function () {
-      alert("Your loan application has been received. Please wait for verification of your documents and approval.");
-      document.getElementById("wallet-balance").textContent = "KES 10000";
-    });
-  </script></body></html>
+    <p>&copy; 2025 TipMaxStiven Investments. All rights reserved.</p>
+  </footer>
+</body></html>
