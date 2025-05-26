@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login - Tipmaxstiven</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Tipmaxstiven Investments</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="js/auth.js" defer></script>
 </head>
-<body class="bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100 flex items-center justify-center min-h-screen">
-  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-sm">
-    <h2 class="text-2xl font-bold text-purple-700 text-center mb-6">Login to Tipmaxstiven</h2>
-    <form>
-      <label class="block mb-1 text-sm text-gray-700">Email</label>
-      <input type="email" placeholder="you@example.com" class="w-full px-4 py-2 border rounded mb-4 focus:ring-purple-500 focus:outline-none">
-
-      <label class="block mb-1 text-sm text-gray-700">Password</label>
-      <input type="password" placeholder="Enter password" class="w-full px-4 py-2 border rounded mb-4 focus:ring-purple-500 focus:outline-none">
-
-      <button class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">Login</button>
-    </form>
-    <div class="mt-4 text-sm text-center">
-      <a href="forgot.html" class="text-purple-600 hover:underline">Forgot password?</a><br>
-      <span>Don't have an account?</span>
-      <a href="register.html" class="text-purple-600 hover:underline">Sign up</a>
-    </div>
+<body class="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center min-h-screen font-sans">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-800">Login to Tipmaxstiven</h1>
+    <input id="username" type="text" placeholder="Username" class="w-full p-3 mb-4 border rounded" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 mb-6 border rounded" />
+    <button onclick="login()" class="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 mb-4">Login</button>
+    <p class="text-center">No account? <a href="register.html" class="text-purple-700 underline">Register here</a></p>
   </div>
 </body>
 </html>
