@@ -1,108 +1,285 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>tipmaxstiven Investments Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="dashboard.js"></script>
-</head><body>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --text: #333;
+      --header-bg: #2b2d42;
+      --primary: #ef233c;
+      --card-bg: #fff;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+      background-color: #edf2f4;
+    }
+
+    #sidebar ul li {
+      padding: 10px;
+    }
+
+    #sidebar ul li a {
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    main {
+      padding: 1rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    input, label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="number"], input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--header-bg);
+      color: white;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
   <header>
     <nav>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
       <div class="logo">tipmaxstiven Investments</div>
     </nav>
-    <aside id="sidebar">
-      <ul>
-        <li><a href="#wallet">Wallet</a></li>
-        <li><a href="#personal-details">Personal Details</a></li>
-        <li><a href="#refer">Refer and Earn</a></li>
-        <li><a href="#logout" id="logout">Logout</a></li>
-      </ul>
-    </aside>
-  </header>  <main>
-    <section id="videos">
-      <h2>Watch YouTube Videos (KES 10 each)</h2>
-      <div class="video">
-        <iframe width="300" height="170" src="https://www.youtube.com/embed/W68WsEHKTDQ" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
+    <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
+  </header>
+
+  <aside id="sidebar">
+    <ul>
+      <li><a href="#wallet">Wallet</a></li>
+      <li><a href="#personal-details">Personal Details</a></li>
+      <li><a href="#refer">Refer and Earn</a></li>
+      <li><a href="#logout" id="logout">Logout</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <section id="invest">
+      <h2>Money Market Investment (50% Weekly Return)</h2>
+      <label for="invest-amount">Enter amount (KES):</label>
+      <input type="number" id="invest-amount" />
+      <p>Weekly Return: <span id="weekly-return">KES 0</span></p>
+      <p>Daily Cash Out: <span id="daily-return">KES 0</span></p>
+      <button id="stake-btn">Stake</button>
+      <div id="investment-progress" style="display:none;">
+        <h4>Investment Progress</h4>
+        <p>Amount Staked: <span id="staked-amount">KES 0</span></p>
+        <p>Days Remaining: <span id="days-left">7</span></p>
       </div>
-      <div class="video">
-        <iframe width="300" height="170" src="https://www.youtube.com/embed/Ovgo-QDyymI" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
+    </section>
+
+    <section id="loan">
+      <h2>Loan Application</h2>
+      <label for="id-number">Enter 8-digit National ID:</label>
+      <input type="text" id="id-number" maxlength="8" />
+      <button id="check-eligibility">Check Eligibility</button>
+      <div id="loan-result"></div>
+
+      <div id="loan-kyc" style="display:none;">
+        <h3>KYC Details</h3>
+        <label>ID Front:</label><input type="file" /><br />
+        <label>ID Back:</label><input type="file" /><br />
+        <label>Proof of Address:</label><input type="file" /><br />
+        <label>Passport Photo:</label><input type="file" /><br />
+        <label>Phone Number:</label><input type="tel" /><br />
+        <label>Guarantor Name:</label><input type="text" /><br />
+        <label>Guarantor Phone:</label><input type="tel" /><br />
+        <button id="submit-kyc">Submit KYC</button>
       </div>
-      <div class="video">
-        <iframe width="300" height="170" src="https://www.youtube.com/embed/rDclYgR4jFA" allowfullscreen></iframe>
-        <p class="reward">KES 10</p>
+
+      <div id="request-loan" style="display:none;">
+        <button>Request Loan</button>
       </div>
-    </section><section id="tiktok">
-  <h2>Watch TikTok Videos (KES 8 each)</h2>
-  <div class="video">TikTok 1 Placeholder</div>
-  <div class="video">TikTok 2 Placeholder</div>
-  <div class="video">TikTok 3 Placeholder</div>
-</section>
+    </section>
 
-<section id="whatsapp">
-  <h2>WhatsApp Adverts (KES 20/day)</h2>
-  <img src="g-wagon.jpg" alt="G-Wagon Ad" width="300" />
-  <a href="g-wagon.jpg" download>Download Image</a>
-  <br /><br />
-  <label>Upload your screenshot:</label>
-  <input type="file" accept="image/*" />
-</section>
+    <section id="wallet">
+      <h2>Wallet</h2>
+      <p>Total Balance: <span id="wallet-balance">KES 5000</span></p>
+      <p>Total Earned: <span id="wallet-earned">KES 0</span></p>
+      <p>Pending Withdrawals: <span id="wallet-pending">KES 0</span></p>
+      <p>Deposits: <span id="wallet-deposit">KES 0</span></p>
+    </section>
 
-<section id="trivia">
-  <h2>Trivia Questions (KES 5 each)</h2>
-  <div id="question-container"></div>
-  <button id="next-btn">Next</button>
-  <p id="result"></p>
-</section>
+    <section id="personal-details">
+      <h2>Personal Details</h2>
+      <p><strong>Username:</strong> <span id="user-name">johndoe</span></p>
+      <p><strong>Email:</strong> <span id="user-email">john@example.com</span></p>
+      <button id="reset-password">Reset Password</button>
+    </section>
 
-<section id="invest">
-  <h2>Money Market Investment (50% Weekly Return)</h2>
-  <label for="invest-amount">Enter amount (KES):</label>
-  <input type="number" id="invest-amount" />
-  <p>Weekly Return: <span id="weekly-return">KES 0</span></p>
-  <p>Daily Cash Out: <span id="daily-return">KES 0</span></p>
-  <button id="stake-btn">Stake</button>
-</section>
+    <section id="refer">
+      <h2>Refer and Earn</h2>
+      <p>Share your referral link: <span id="referral-link">https://tipmaxstiven.site/?ref=johndoe</span></p>
+    </section>
+  </main>
 
-<section id="loan">
-  <h2>Loan Application</h2>
-  <label for="id-number">Enter 8-digit National ID:</label>
-  <input type="text" id="id-number" maxlength="8" />
-  <button id="check-eligibility">Check Eligibility</button>
-  <div id="loan-result"></div>
-  <div id="loan-kyc" style="display:none;">
-    <h3>KYC Details</h3>
-    <label>ID Front:</label><input type="file" /><br />
-    <label>ID Back:</label><input type="file" /><br />
-    <label>Proof of Address:</label><input type="file" /><br />
-    <label>Passport Photo:</label><input type="file" /><br />
-    <label>Phone Number:</label><input type="tel" /><br />
-    <button>Submit KYC</button>
-  </div>
-</section>
-
-<section id="wallet">
-  <h2>Wallet</h2>
-  <p>Total Balance: <span id="wallet-balance">KES 0</span></p>
-  <p>Total Earned: <span id="wallet-earned">KES 0</span></p>
-  <p>Pending Withdrawals: <span id="wallet-pending">KES 0</span></p>
-  <p>Deposits: <span id="wallet-deposit">KES 0</span></p>
-</section>
-
-<section id="personal-details">
-  <h2>Personal Details</h2>
-  <p><strong>Username:</strong> <span id="user-name"></span></p>
-  <p><strong>Email:</strong> <span id="user-email"></span></p>
-  <button id="reset-password">Reset Password</button>
-</section>
-
-<section id="refer">
-  <h2>Refer and Earn</h2>
-  <p>Share your referral link: <span id="referral-link">https://tipmaxstiven.site/?ref=username</span></p>
-</section>
-
-  </main>  <footer>
+  <footer>
     <p>&copy; 2025 tipmaxstiven Investments. All rights reserved.</p>
   </footer>
-</body></html>
+
+  <script>
+    // Wallet logic
+    let walletBalance = 5000;
+
+    // Investment logic
+    const investAmountInput = document.getElementById("invest-amount");
+    const weeklyReturnSpan = document.getElementById("weekly-return");
+    const dailyReturnSpan = document.getElementById("daily-return");
+    const stakeBtn = document.getElementById("stake-btn");
+    const investmentProgress = document.getElementById("investment-progress");
+    const stakedAmountSpan = document.getElementById("staked-amount");
+    const daysLeftSpan = document.getElementById("days-left");
+    const walletBalanceSpan = document.getElementById("wallet-balance");
+
+    let currentStake = 0;
+    let daysRemaining = 7;
+
+    investAmountInput.addEventListener("input", () => {
+      const amount = parseFloat(investAmountInput.value);
+      if (!isNaN(amount)) {
+        const weekly = amount * 0.5;
+        const daily = weekly / 7;
+        weeklyReturnSpan.textContent = `KES ${weekly.toFixed(2)}`;
+        dailyReturnSpan.textContent = `KES ${daily.toFixed(2)}`;
+      }
+    });
+
+    stakeBtn.addEventListener("click", () => {
+      const amount = parseFloat(investAmountInput.value);
+      if (!isNaN(amount) && amount <= walletBalance) {
+        currentStake = amount;
+        daysRemaining = 7;
+        walletBalance -= amount;
+        walletBalanceSpan.textContent = `KES ${walletBalance.toFixed(2)}`;
+        stakedAmountSpan.textContent = `KES ${amount.toFixed(2)}`;
+        daysLeftSpan.textContent = daysRemaining;
+        investmentProgress.style.display = "block";
+        alert("Staked successfully!");
+      } else {
+        alert("Invalid amount or insufficient balance.");
+      }
+    });
+
+    // Loan logic
+    const checkEligibilityBtn = document.getElementById("check-eligibility");
+    const loanResult = document.getElementById("loan-result");
+    const loanKYC = document.getElementById("loan-kyc");
+    const requestLoan = document.getElementById("request-loan");
+
+    checkEligibilityBtn.addEventListener("click", () => {
+      const idInput = document.getElementById("id-number").value.trim();
+      if (/^\d{8}$/.test(idInput)) {
+        loanResult.textContent = "You are eligible for a loan.";
+        loanKYC.style.display = "block";
+        requestLoan.style.display = "block";
+      } else {
+        loanResult.textContent = "Invalid ID. Please enter an 8-digit number.";
+        loanKYC.style.display = "none";
+        requestLoan.style.display = "none";
+      }
+    });
+
+    // THEMES
+    const themes = [
+      { bg: "#f5f7fa", text: "#333", header: "#2b2d42", primary: "#ef233c", card: "#ffffff" },
+      { bg: "#1e1e2f", text: "#f8f8f2", header: "#282a36", primary: "#ff79c6", card: "#2e2e3e" },
+      { bg: "#f0f4f8", text: "#1c2b36", header: "#0284c7", primary: "#0ea5e9", card: "#ffffff" },
+      { bg: "#fef6fb", text: "#3c0753", header: "#9d174d", primary: "#be185d", card: "#fff0f6" },
+      { bg: "#edf7ed", text: "#1c4532", header: "#166534", primary: "#16a34a", card: "#ffffff" },
+    ];
+    let currentTheme = 0;
+
+    function toggleTheme() {
+      currentTheme = (currentTheme + 1) % themes.length;
+      const theme = themes[currentTheme];
+      document.documentElement.style.setProperty('--bg', theme.bg);
+      document.documentElement.style.setProperty('--text', theme.text);
+      document.documentElement.style.setProperty('--header-bg', theme.header);
+      document.documentElement.style.setProperty('--primary', theme.primary);
+      document.documentElement.style.setProperty('--card-bg', theme.card);
+      localStorage.setItem("tipmax_theme", currentTheme);
+    }
+
+    // Load stored theme
+    window.onload = () => {
+      const saved = localStorage.getItem("tipmax_theme");
+      if (saved !== null) {
+        currentTheme = parseInt(saved);
+        toggleTheme(); // call once to apply the saved theme
+        currentTheme--; // adjust for toggleTheme increment
+      }
+    };
+  </script>
+</body>
+</html>
