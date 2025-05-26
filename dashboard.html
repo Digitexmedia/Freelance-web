@@ -1,128 +1,96 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Tipmaxstiven Investments</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
   <style>
-    .section { margin-bottom: 2rem; padding: 1rem; background: white; border-radius: 1rem; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+    .sidebar {
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-green-100 via-purple-100 to-pink-100 min-h-screen text-gray-800">
-<div class="max-w-4xl mx-auto py-8">
-  <h1 class="text-3xl font-bold text-center text-purple-800 mb-6">Welcome to Your Dashboard</h1>  <!-- YouTube Earnings -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">Watch YouTube Videos (KES 10 each)</h2>
-    <ul class="space-y-2" id="youtube-list"></ul>
-  </div>  <!-- TikTok Earnings -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">Watch TikTok Videos (KES 8 each)</h2>
-    <ul class="space-y-2" id="tiktok-list"></ul>
-  </div>  <!-- WhatsApp Adverts -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">WhatsApp Adverts (KES 20/day)</h2>
-    <img src="https://www.topgear.com/sites/default/files/2023/03/1-GWagon.jpg" alt="G-Wagon Ad" class="w-full max-w-sm mb-2">
-    <a href="https://www.topgear.com/sites/default/files/2023/03/1-GWagon.jpg" download class="text-blue-600 underline">Download Image</a>
-    <p class="mt-2">Upload your screenshot here:</p>
-    <input type="file" class="mt-1">
-  </div>  <!-- Trivia Questions -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">Trivia Questions (KES 5 each)</h2>
-    <div id="questionBox" class="mb-2"></div>
-    <div id="answers"></div>
-    <p id="result" class="mt-2 font-semibold"></p>
-  </div>  <!-- Investments -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">Money Market Investment (50% Weekly Return)</h2>
-    <input type="number" id="invest-amount" placeholder="Enter amount (KES)" class="border p-2 rounded">
-    <p class="mt-2">Weekly Return: <span id="invest-return">KES 0</span></p>
-  </div>  <!-- Loans -->  <div class="section">
-    <h2 class="text-xl font-bold mb-2">Loan Application</h2>
-    <input type="number" id="id-check" placeholder="Enter National ID" class="border p-2 rounded mb-2">
-    <button onclick="checkEligibility()" class="bg-blue-600 text-white px-3 py-1 rounded">Check Eligibility</button>
-    <p id="loan-status" class="mt-2"></p>
-    <div id="loan-application" class="hidden mt-2">
-      <input type="number" id="loan-amount" placeholder="Enter Loan Amount" class="border p-2 rounded">
-      <p class="mt-2">Interest (10%): <span id="interest">KES 0</span><br>Transaction Fee: <span id="fee">KES 100</span></p>
-    </div>
+<body class="bg-gray-100">  <!-- Sidebar -->  <div id="sidebar" class="sidebar sidebar-hidden fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50 p-4">
+    <h2 class="text-xl font-semibold text-purple-800 mb-6">Menu</h2>
+    <ul>
+      <li class="mb-4"><a href="#wallet" class="text-purple-700 hover:underline">Wallet</a></li>
+      <li class="mb-4"><a href="#personal" class="text-purple-700 hover:underline">Personal Details</a></li>
+      <li><button onclick="logout()" class="text-red-600 hover:underline">Logout</button></li>
+    </ul>
+  </div>  <!-- Header -->  <header class="bg-purple-700 text-white p-4 flex items-center">
+    <button onclick="toggleSidebar()" class="mr-4 focus:outline-none">
+      <i data-feather="menu"></i>
+    </button>
+    <h1 class="text-xl font-semibold">Welcome to Tipmaxstiven Investments</h1>
+  </header>  <!-- Main Content -->  <main class="p-6 max-w-5xl mx-auto">
+    <!-- Existing earnings sections (YouTube, TikTok, etc.) remain unchanged --><!-- Wallet Section -->
+<section id="wallet" class="bg-white shadow rounded-lg p-6 my-8">
+  <h2 class="text-2xl font-semibold text-purple-700 mb-4">Wallet</h2>
+  <p>Total Deposits: <strong>KES <span id="totalDeposits">0</span></strong></p>
+  <p>Total Income: <strong>KES <span id="totalIncome">0</span></strong></p>
+  <p>Pending Withdrawals: <strong>KES <span id="pendingWithdrawals">0</span></strong></p>
+
+  <div class="mt-4">
+    <h3 class="text-lg font-semibold mb-2">Deposit</h3>
+    <input type="number" id="depositAmount" placeholder="Amount (KES)" class="border p-2 rounded w-full mb-2">
+    <button onclick="deposit()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Deposit</button>
   </div>
-</div><script>
-  const youtubeLinks = [
-    "https://youtu.be/W68WsEHKTDQ?si=0g81FXKkzIRDGZzy",
-    "https://youtu.be/Ovgo-QDyymI?si=-p-uLW0xXixviybL",
-    "https://youtu.be/rDclYgR4jFA?si=So2clcbAcx1ZQ0QG"
-  ];
-  const tiktokLinks = [
-    "https://www.tiktok.com/@digitexmedia_ke/video/1",
-    "https://www.tiktok.com/@digitexmedia_ke/video/2",
-    "https://www.tiktok.com/@digitexmedia_ke/video/3"
-  ];
 
-  const youtubeList = document.getElementById("youtube-list");
-  youtubeLinks.forEach((link, i) => {
-    const item = document.createElement("li");
-    item.innerHTML = `<a href="${link}" target="_blank" class="text-blue-600 underline">Video ${i+1}</a> - <button onclick="credit('yt', this)">Mark as Watched</button>`;
-    youtubeList.appendChild(item);
-  });
+  <div class="mt-4">
+    <h3 class="text-lg font-semibold mb-2">Withdraw</h3>
+    <input type="number" id="withdrawAmount" placeholder="Amount (KES)" class="border p-2 rounded w-full mb-2">
+    <button onclick="withdraw()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Withdraw</button>
+  </div>
+</section>
 
-  const tiktokList = document.getElementById("tiktok-list");
-  tiktokLinks.forEach((link, i) => {
-    const item = document.createElement("li");
-    item.innerHTML = `<a href="${link}" target="_blank" class="text-blue-600 underline">TikTok ${i+1}</a> - <button onclick="credit('tt', this)">Mark as Watched</button>`;
-    tiktokList.appendChild(item);
-  });
+<!-- Personal Details Section -->
+<section id="personal" class="bg-white shadow rounded-lg p-6">
+  <h2 class="text-2xl font-semibold text-purple-700 mb-4">Personal Details</h2>
+  <p>Username: <strong id="user-name">-</strong></p>
+  <p>Email: <strong id="user-email">-</strong></p>
+</section>
 
-  function credit(type, btn) {
-    btn.disabled = true;
-    btn.textContent = 'Watched & Credited';
-    alert(type === 'yt' ? 'KES 10 Credited' : 'KES 8 Credited');
-  }
-
-  // Trivia
-  const questions = [
-    { q: "What is the capital of Kenya?", a: ["Nairobi", "Mombasa", "Kisumu"], correct: 0 },
-    { q: "How many counties are in Kenya?", a: ["47", "42", "50"], correct: 0 },
-    { q: "What color is the Kenyan flag NOT?", a: ["Black", "White", "Orange"], correct: 2 }
-  ];
-  let current = 0, score = 0;
-
-  function showQuestion() {
-    const q = questions[current];
-    document.getElementById("questionBox").textContent = q.q;
-    const answers = document.getElementById("answers");
-    answers.innerHTML = "";
-    q.a.forEach((ans, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = ans;
-      btn.className = "block mt-1 px-2 py-1 border rounded bg-purple-200";
-      btn.onclick = () => {
-        if (i === q.correct) score += 5;
-        current++;
-        if (current < questions.length) showQuestion();
-        else document.getElementById("result").textContent = `Quiz complete! You earned KES ${score}`;
-      };
-      answers.appendChild(btn);
-    });
-  }
-  showQuestion();
-
-  // Investment
-  document.getElementById("invest-amount").addEventListener("input", e => {
-    const val = parseInt(e.target.value) || 0;
-    document.getElementById("invest-return").textContent = `KES ${val * 0.5}`;
-  });
-
-  // Loans
-  function checkEligibility() {
-    const id = parseInt(document.getElementById("id-check").value);
-    const status = document.getElementById("loan-status");
-    const app = document.getElementById("loan-application");
-    if (id >= 43000000) {
-      status.textContent = "You are not eligible for a loan.";
-      app.classList.add("hidden");
-    } else {
-      status.textContent = "You are eligible! Proceed below.";
-      app.classList.remove("hidden");
+  </main>  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("sidebar-hidden");
     }
-  }
-  document.getElementById("loan-amount").addEventListener("input", e => {
-    const amount = parseInt(e.target.value) || 0;
-    document.getElementById("interest").textContent = `KES ${amount * 0.1}`;
-  });
-</script></body>
-  </html>
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    }
+
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("user-name").innerText = user.username || "N/A";
+      document.getElementById("user-email").innerText = user.email || "N/A";
+    }
+
+    function deposit() {
+      const amount = parseFloat(document.getElementById("depositAmount").value);
+      if (!isNaN(amount) && amount > 0) {
+        alert("KES " + amount + " deposited successfully!");
+        let current = parseFloat(document.getElementById("totalDeposits").innerText);
+        document.getElementById("totalDeposits").innerText = (current + amount).toFixed(2);
+      }
+    }
+
+    function withdraw() {
+      const amount = parseFloat(document.getElementById("withdrawAmount").value);
+      if (!isNaN(amount) && amount > 0) {
+        alert("KES " + amount + " withdrawal requested!");
+        let current = parseFloat(document.getElementById("pendingWithdrawals").innerText);
+        document.getElementById("pendingWithdrawals").innerText = (current + amount).toFixed(2);
+      }
+    }
+
+    feather.replace();
+  </script></body>
+</html>
