@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Tipmaxstiven Investments</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="js/auth.js" defer></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 min-h-screen font-sans">
+  <header class="bg-purple-700 text-white p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Tipmaxstiven Investments Dashboard</h1>
+    <button onclick="logout()" class="bg-purple-900 px-4 py-2 rounded hover:bg-purple-800">Logout</button>
+  </header>
+  <main class="max-w-4xl mx-auto p-6">
+    <h2 id="welcomeMsg" class="text-3xl font-semibold mb-6"></h2>
+    <p>Here you can access your services and account information.</p>
+    <!-- Add dashboard content here -->
+  </main>
+
+  <script>
+    window.onload = checkLogin;
+  </script>
+</body>
+</html>
